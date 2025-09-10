@@ -1,0 +1,12 @@
+api:
+  kroger_client_id: ${KROGER_CLIENT_ID}
+  kroger_client_secret: ${KROGER_CLIENT_SECRET}
+
+alerts:
+  email_user: ${EMAIL_USER}
+  email_pass: ${EMAIL_PASS}
+  email_to: ${EMAIL_TO}
+
+pipeline:
+  run_frequency: daily
+  default_store: "015/00001"
