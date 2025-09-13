@@ -1,2 +1,8 @@
-venv/
-*.pyc
+venv/ # Ignore virtual environment
+__pycache__/ # Ignore Python cache files
+*.log # Ignore log files
+*.pyc # Ignore compiled Python files
+config/secrets.env  # Ignore sensitive configuration files
+.DS_Store # Ignore macOS system files
+.idea/ # Ignore IDE configuration files
+.vscode/ # Ignore VSCode configuration files
