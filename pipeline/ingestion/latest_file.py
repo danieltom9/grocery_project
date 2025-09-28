@@ -29,7 +29,7 @@ def get_access_token():
         exit()
 
 
-def search_products(search_term, location_id="01100002", limit=5): 
+def search_products(search_term, location_id="01100002", limit=5):
     #Function to search for products using the Kroger API
     url = "https://api.kroger.com/v1/products"
     headers = {
@@ -40,14 +40,14 @@ def search_products(search_term, location_id="01100002", limit=5):
         "filter.locationId": location_id,
         "filter.limit": limit
     }
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params)  
     if response.status_code == 200: 
         data = response.json()
         if "data" in data and len(data["data"]) > 0:
             product_id_list = []
             product_name_list = []
             price_list = []
-            print("\nProducts Found:")
+            #print("\nProducts Found:")
             for product in data["data"]:
                 product_name = product.get("description", "N/A")
                 product_id = product.get("productId", "N/A")
@@ -59,10 +59,10 @@ def search_products(search_term, location_id="01100002", limit=5):
                 product_id_list.append(product_id)
                 product_name_list.append(product_name)
                 price_list.append(price)
-                print(f"Product Name: {product_name}")
-                print(f"Product ID: {product_id}")
-                print(f"Price: {price}")
-                print("-" * 40)
+                #print(f"Product Name: {product_name}")
+                #print(f"Product ID: {product_id}")
+                #print(f"Price: {price}")
+                #print("-" * 40)
             print("\nProduct IDs:", product_id_list)
             print("Product Names:", product_name_list)
             print("Prices:", price_list)
@@ -73,13 +73,18 @@ def search_products(search_term, location_id="01100002", limit=5):
 if __name__ == "__main__":
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Search for products in the Kroger API.")
-    parser.add_argument("search_term", type=str, help="The search term to use (e.g., 'milk', 'chicken').")
+    parser.add_argument("search_term",nargs="+")
     args = parser.parse_args()
 
+    print("Parsed arguments:", args.search_term)
+
+    #parser = argparse.ArgumentParser(description="Process an argument specified multiple times.")
+    #parser.add_argument('-i', '--input', action='append', help='Specify multiple input items.')
+
+    #args = parser.parse_args()  
+
+
     # Call the search function with the provided search term
-    search_products(args.search_term)
-
-
-
-
+    for term in args.search_term: 
+        search_products(term)
 
