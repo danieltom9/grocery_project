@@ -1,10 +1,9 @@
 venv/ 
-# Ignore virtual environment
-__pycache__/ # Ignore Python cache files
-*.log # Ignore log files
-*.pyc # Ignore compiled Python files
-config/.env  # Ignore sensitive configuration files
-.vscode/  # Ignore VS Code settings
-.idea/    # Ignore PyCharm/IntelliJ settings
-*.sublime-workspace # Ignore Sublime Text workspace files
+__pycache__/ 
+*.log 
+*.pyc 
+config/.env  
+.vscode/  
+.idea/    
+*.sublime-workspace 
 
