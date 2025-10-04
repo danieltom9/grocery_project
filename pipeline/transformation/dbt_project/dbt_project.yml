@@ -1,0 +1,8 @@
+name: 'grocery_transformations'
+version: '1.0'
+profile: 'grocery_dbt_project'
+
+models:
+  sales_transformations:
+    marts:
+      materialized: view
