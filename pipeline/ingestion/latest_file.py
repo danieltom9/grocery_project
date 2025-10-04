@@ -4,6 +4,14 @@ from requests.auth import HTTPBasicAuth
 import os
 from dotenv import load_dotenv
 import argparse
+import sqlite3
+from datetime import datetime
+
+#DB_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "products.db")
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+DB_PATH = os.path.join(PROJECT_ROOT, "products.db")
+
+
 
 # Load environment variables from a different .env file
 load_dotenv(dotenv_path="config/.env", override=True)
@@ -28,9 +36,37 @@ def get_access_token():
         print("Error fetching token:", response.status_code, response.text)
         exit()
 
+def create_database():
+    """Create the SQLite database and table if they don't exist."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            datetime TEXT,
+            product_id TEXT,
+            product_name TEXT,
+            price TEXT,
+            search_term TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def save_to_database(product_id, product_name, price, search_term):
+    """Save a product to the SQLite database."""
+    current_datetime = datetime.now().isoformat()
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO products (datetime, product_id, product_name, price, search_term)
+        VALUES (?, ?, ?, ?, ?)
+    """, (current_datetime, product_id, product_name, price, search_term))
+    conn.commit()
+    conn.close()
 
 def search_products(search_term, location_id="01100002", limit=5):
-    #Function to search for products using the Kroger API
+    """Search for products using the Kroger API."""
     url = "https://api.kroger.com/v1/products"
     headers = {
         "Authorization": f"Bearer {get_access_token()}",
@@ -47,7 +83,6 @@ def search_products(search_term, location_id="01100002", limit=5):
             product_id_list = []
             product_name_list = []
             price_list = []
-            #print("\nProducts Found:")
             for product in data["data"]:
                 product_name = product.get("description", "N/A")
                 product_id = product.get("productId", "N/A")
@@ -59,30 +94,25 @@ def search_products(search_term, location_id="01100002", limit=5):
                 product_id_list.append(product_id)
                 product_name_list.append(product_name)
                 price_list.append(price)
-                #print(f"Product Name: {product_name}")
-                #print(f"Product ID: {product_id}")
-                #print(f"Price: {price}")
-                #print("-" * 40)
+                print("Saving:", product_id, product_name, price, search_term)
+                save_to_database(product_id, product_name, price, search_term)
             print("\nProduct IDs:", product_id_list)
             print("Product Names:", product_name_list)
             print("Prices:", price_list)
         else:
             print("No products found for the search term.")
-
+    else:
+        print("❌ Error in GET request:", response.status_code, response.text)
 
 if __name__ == "__main__":
+    create_database()
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Search for products in the Kroger API.")
-    parser.add_argument("search_term",nargs="+")
+    parser.add_argument("search_term", nargs="+")
     args = parser.parse_args()
-
+    
+    # print statement to show parsed arguments
     print("Parsed arguments:", args.search_term)
-
-    #parser = argparse.ArgumentParser(description="Process an argument specified multiple times.")
-    #parser.add_argument('-i', '--input', action='append', help='Specify multiple input items.')
-
-    #args = parser.parse_args()  
-
 
     # Call the search function with the provided search term
     for term in args.search_term: 
