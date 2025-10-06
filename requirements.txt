@@ -4,3 +4,5 @@ matplotlib
 yagmail
 python-dotenv
 pyyaml
+dbt-core
+dbt-sqlite
