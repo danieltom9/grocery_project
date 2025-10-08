@@ -5,3 +5,17 @@ sources:
     schema: main
     tables:
       - name: products
+        columns: 
+          - name: product_id
+            tests:
+              - not_null
+              - unique
+          - name: product_name
+            tests:
+              - not_null
+          - name: category
+            tests:
+              - not_null
+          - name: price
+            tests:
+              - not_null
