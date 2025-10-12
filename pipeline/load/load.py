@@ -4,14 +4,20 @@ import sqlite3
 from google.cloud import bigquery
 import os
 
-load_dotenv(dotenv_path="config/.env", override=True)
+# Get project root dynamically
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
+# Load .env from project root
+load_dotenv(os.path.join(PROJECT_ROOT, "config/.env"), override=True)
+
+
 
 # === CONFIGURATION ===
 sqlite_db_path = "/Users/danieltom/Desktop/daniel grocery project/products.db"
 sqlite_table_name = "products"
 bq_project = "daniel-grocery-project"
 bq_dataset = "products_dataset"
-bq_table = "products"
+bq_table = "products_2"
 credentials_path = os.getenv("GOOGLE_JSON_KEY_FILE_PATH")
 
 
