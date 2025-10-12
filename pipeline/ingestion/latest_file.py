@@ -46,7 +46,7 @@ def create_database():
             datetime TEXT,
             product_id TEXT,
             product_name TEXT,
-            price TEXT,
+            price FLOAT,
             search_term TEXT
         )
     """)

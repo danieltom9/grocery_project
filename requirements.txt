@@ -6,3 +6,4 @@ python-dotenv
 pyyaml
 dbt-core
 dbt-sqlite
+google-cloud-bigquery[pandas]
