@@ -13,12 +13,15 @@ load_dotenv(os.path.join(PROJECT_ROOT, "config/.env"), override=True)
 
 
 # === CONFIGURATION ===
-sqlite_db_path = "/Users/danieltom/Desktop/daniel grocery project/products.db"
+'''sqlite_db_path = "/Users/danieltom/Desktop/daniel grocery project/products.db"'''
+sqlite_db_path = "/app/products.db"
 sqlite_table_name = "products"
 bq_project = "daniel-grocery-project"
 bq_dataset = "products_dataset"
 bq_table = "products_2"
-credentials_path = os.getenv("GOOGLE_JSON_KEY_FILE_PATH")
+'''credentials_path = os.getenv("GOOGLE_JSON_KEY_FILE_PATH")'''
+credentials_path = os.getenv("GOOGLE_JSON_KEY_FILE_PATH", "/app/config/gcp-key.json")
+
 
 
 # === STEP 1: READ DATA FROM SQLITE ===
