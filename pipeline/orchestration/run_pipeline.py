@@ -5,12 +5,10 @@ import os
 from datetime import timedelta
 from prefect.client.schemas.schedules import CronSchedule
 from dotenv import load_dotenv
+from prefect import flow
+from prefect.deployments import deploy
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", "..", "config/.env"), override=True)
-print("✅ Loaded CLIENT_ID:", os.getenv("KROGER_CLIENT_ID"))
-print("✅ Loaded CLIENT_SECRET:", os.getenv("KROGER_CLIENT_SECRET"))
-
-
 
 
 @task
@@ -35,9 +33,7 @@ def run_python_file(file_path: str):
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"File not found: {file_path}")
     
-    print(f"🔹 Running Python file directly: {file_path}")
     runpy.run_path(file_path, run_name="__main__")
-    print("✅ Python file executed successfully.")
 
 @flow
 def orchestrate_command():
@@ -51,10 +47,9 @@ def orchestrate_command():
 
 if __name__ == "__main__":
     orchestrate_command()  # Immediate run
-    # ✅ Create and register a Prefect deployment
     orchestrate_command.serve(
         name="daily-orchestration",
-        schedule=CronSchedule(cron="0 8 * * *", timezone="America/Los_Angeles"),
-        description="Daily orchestration of ingestion + load pipeline",
-        tags=["daily", "pipeline"],
+        cron="0 8 * * *",              
+        timezone="America/Los_Angeles",
+        tags=["daily", "pipeline"]
     )
