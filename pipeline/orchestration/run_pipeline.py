@@ -50,6 +50,5 @@ if __name__ == "__main__":
     orchestrate_command.serve(
         name="daily-orchestration",
         cron="0 8 * * *",              
-        timezone="America/Los_Angeles",
         tags=["daily", "pipeline"]
     )
