@@ -1,0 +1,36 @@
+# Welcome to your prefect.yaml file! You can use this file for storing and managing
+# configuration for deploying your flows. We recommend committing this file to source
+# control along with your flow code.
+
+# Generic metadata about this project
+name: daniel grocery project
+prefect-version: 3.4.23
+
+# build section allows you to manage and build docker images
+build: null
+
+# push section allows you to manage if and how this project is uploaded to remote locations
+push: null
+
+# pull section allows you to provide instructions for cloning this project in remote locations
+pull:
+- prefect.deployments.steps.set_working_directory:
+    directory: /Users/danieltom/Desktop/daniel grocery project
+
+# the deployments section allows you to provide configuration for deploying flows
+deployments:
+- name: daily-orchestration
+  version: null
+  tags: []
+  concurrency_limit: null
+  description: null
+  entrypoint: pipeline/orchestration/run_pipeline.py:orchestrate_command
+  parameters: {}
+  work_pool:
+    name: daniel_work_pool
+    work_queue_name: null
+    job_variables: {}
+  schedules:
+  - cron: 0 8 * * *
+    timezone: America/Los_Angeles
+    day_or: true
