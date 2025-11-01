@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import argparse
 import sqlite3
 from datetime import datetime
-from prefect.blocks.system import Secret
+'''from prefect.blocks.system import Secret'''
 
 #DB_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "products.db")
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
@@ -17,8 +17,10 @@ DB_PATH = os.path.join(PROJECT_ROOT, "products.db")
 # Load environment variables from a different .env file
 load_dotenv(dotenv_path="config/.env", override=True)
 
-CLIENT_ID = os.getenv("KROGER_CLIENT_ID") or Secret.load("kroger-client-id").get()
-CLIENT_SECRET = os.getenv("KROGER_CLIENT_SECRET") or Secret.load("kroger-client-secret").get()
+CLIENT_ID = os.getenv("KROGER_CLIENT_ID") 
+'''or Secret.load("kroger-client-id").get()'''
+CLIENT_SECRET = os.getenv("KROGER_CLIENT_SECRET") 
+'''or Secret.load("kroger-client-secret").get()'''
 
 # Token endpoint
 TOKEN_URL = "https://api.kroger.com/v1/connect/oauth2/token"
