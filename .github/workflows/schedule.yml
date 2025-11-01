@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -20,11 +21,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run Prefect orchestration
+      - name: Run ingestion and load scripts
         env:
           KROGER_CLIENT_ID: ${{ secrets.KROGER_CLIENT_ID }}
           KROGER_CLIENT_SECRET: ${{ secrets.KROGER_CLIENT_SECRET }}
           GOOGLE_JSON_KEY_FILE_PATH: ${{ secrets.GOOGLE_JSON_KEY_FILE_PATH }}
-        run:           
-          echo "Running ingestion script for milk, eggs, and oranges..."
+        run: |
+          echo "🚀 Running ingestion script for milk, eggs, and oranges..."
           python pipeline/ingestion/latest_file.py milk eggs oranges
+          
+          echo "📦 Running load script to upload data to BigQuery..."
+          python pipeline/load/load.py
