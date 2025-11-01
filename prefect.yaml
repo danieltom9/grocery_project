@@ -1,32 +1,21 @@
-# prefect.yaml
 name: daniel grocery project
 prefect-version: 3.4.23
 
-# No build or push steps needed because you're using a prebuilt image
 build: null
 push: null
-
-# The image to pull when your work pool spins up a job
-pull:
-  - prefect.deployments.steps.pull_image:
-      image: ghcr.io/danieltom9/grocery-pipeline:latest
+pull: null
 
 deployments:
 - name: daily-orchestration
   version: null
   tags: ["daily", "pipeline"]
-  concurrency_limit: null
   description: "Daily orchestration of ingestion + load pipeline"
   entrypoint: pipeline/orchestration/run_pipeline.py:orchestrate_command
-  parameters: {}
   work_pool:
     name: daniel_work_pool
-    work_queue_name: null
-    job_variables: {}
   schedules:
-  - cron: "0 11 * * *"
+  - cron: "0 14 * * *"
     timezone: America/Los_Angeles
-    day_or: true
   steps:
   - prefect.deployments.steps.set_storage:
       block: github-repository/daniel-grocery-storage
