@@ -1,20 +1,30 @@
 name: Daily Grocery Pipeline
+
 on:
   schedule:
     - cron: "0 15 * * *"  # every day at 3 PM UTC
-  workflow_dispatch:       # allows manual trigger
+  workflow_dispatch:
+
 jobs:
   run:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - name: Install dependencies
         run: pip install -r requirements.txt
+
       - name: Run Prefect orchestration
-        run: python pipeline/orchestration/run_pipeline.py
-
-
+        env:
+          KROGER_CLIENT_ID: ${{ secrets.KROGER_CLIENT_ID }}
+          KROGER_CLIENT_SECRET: ${{ secrets.KROGER_CLIENT_SECRET }}
+          GOOGLE_JSON_KEY_FILE_PATH: ${{ secrets.GOOGLE_JSON_KEY_FILE_PATH }}
+        run:           
+          echo "Running ingestion script for milk, eggs, and oranges..."
+          python pipeline/ingestion/latest_file.py milk eggs oranges
