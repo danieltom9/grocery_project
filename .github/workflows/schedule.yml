@@ -2,6 +2,7 @@ name: Daily Grocery Pipeline
 
 on:
   schedule:
+    # Runs every day at 7 AM Pacific (adjust as needed)
     - cron: "0 15 * * *"  
   workflow_dispatch:
 
@@ -10,30 +11,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 🧾 Step 1: Checkout your repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 🐍 Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
+      # 📦 Step 3: Install dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 🔐 Step 4: Create Google Cloud credentials file from secret
       - name: Create Google Cloud credentials file
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
-          mkdir -p config
-          echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > config/gcp-key.json
-          echo "✅ Created service account file at config/gcp-key.json"
+          echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > /tmp/gcp-key.json
+          echo "✅ Created service account file at /tmp/gcp-key.json"
 
+      # 🚀 Step 5: Run ingestion + load scripts
       - name: Run ingestion and load scripts
         env:
           KROGER_CLIENT_ID: ${{ secrets.KROGER_CLIENT_ID }}
           KROGER_CLIENT_SECRET: ${{ secrets.KROGER_CLIENT_SECRET }}
-          GOOGLE_JSON_KEY_FILE_PATH: "config/gcp-key.json"
+          GOOGLE_JSON_KEY_FILE_PATH: "/tmp/gcp-key.json"
+          BQ_PROJECT: "daniel-grocery-project"
         run: |
           echo "🚀 Running ingestion script for milk, eggs, and oranges..."
           python pipeline/ingestion/latest_file.py milk eggs oranges
