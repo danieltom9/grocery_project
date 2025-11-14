@@ -4,6 +4,10 @@ import pandas as pd
 from dotenv import load_dotenv
 from google.cloud import bigquery
 
+print("DEBUG: Running load.py from:", os.path.realpath(__file__))
+print("DEBUG: GOOGLE_JSON_KEY_FILE_PATH =", os.getenv("GOOGLE_JSON_KEY_FILE_PATH"))
+
+
 # === STEP 0: Load environment variables ===
 
 # Get project root dynamically (works locally and in container)
