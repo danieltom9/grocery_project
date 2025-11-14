@@ -45,3 +45,11 @@ jobs:
           python pipeline/ingestion/latest_file.py milk eggs oranges
           echo "📦 Running load script to upload data to BigQuery..."
           python pipeline/load/load.py
+      
+
+      - name: Debug credential environment
+        run: |
+          echo "DEBUG: GOOGLE_JSON_KEY_FILE_PATH=$GOOGLE_JSON_KEY_FILE_PATH"
+          echo "DEBUG: File exists? $(test -f $GOOGLE_JSON_KEY_FILE_PATH && echo yes || echo no)"
+          echo "DEBUG: JSON preview:"
+          head -n 20 $GOOGLE_JSON_KEY_FILE_PATH
