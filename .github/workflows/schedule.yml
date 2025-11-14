@@ -54,4 +54,6 @@ jobs:
           python pipeline/ingestion/latest_file.py milk eggs oranges
 
           echo "📦 Running load script to upload data to BigQuery..."
+          GOOGLE_JSON_KEY_FILE_PATH="/tmp/gcp-key.json" \
           python pipeline/load/load.py
+
