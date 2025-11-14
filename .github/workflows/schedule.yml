@@ -13,6 +13,24 @@ jobs:
     steps:
       # 🧾 Step 1: Checkout your repository
       - name: Checkout repository
+      ...
+
+``` yaml
+name: Daily Grocery Pipeline
+
+on:
+  schedule:
+    # Runs every day at 7 AM Pacific (15:00 UTC)
+    - cron: "0 15 * * *"
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🧾 Step 1: Checkout your repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       # 🐍 Step 2: Set up Python environment
@@ -31,25 +49,27 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           echo "$GOOGLE_SERVICE_ACCOUNT_JSON" > /tmp/gcp-key.json
+          chmod 600 /tmp/gcp-key.json
           echo "GOOGLE_JSON_KEY_FILE_PATH=/tmp/gcp-key.json" >> $GITHUB_ENV
           echo "✅ Service account file created at /tmp/gcp-key.json"
 
-      # 🚀 Step 5: Run ingestion + load scripts
-      - name: Run ingestion and load scripts
-        env:
-          KROGER_CLIENT_ID: ${{ secrets.KROGER_CLIENT_ID }}
-          KROGER_CLIENT_SECRET: ${{ secrets.KROGER_CLIENT_SECRET }}
-          BQ_PROJECT: "daniel-grocery-project"
-        run: |
-          echo "🚀 Running ingestion script for milk, eggs, and oranges..."
-          python pipeline/ingestion/latest_file.py milk eggs oranges
-          echo "📦 Running load script to upload data to BigQuery..."
-          python pipeline/load/load.py
-      
-
+      # 🔎 Optional: Debug credential environment
       - name: Debug credential environment
         run: |
           echo "DEBUG: GOOGLE_JSON_KEY_FILE_PATH=$GOOGLE_JSON_KEY_FILE_PATH"
           echo "DEBUG: File exists? $(test -f $GOOGLE_JSON_KEY_FILE_PATH && echo yes || echo no)"
           echo "DEBUG: JSON preview:"
           head -n 20 $GOOGLE_JSON_KEY_FILE_PATH
+
+      # 🚀 Step 5: Run ingestion + load scripts (FIXED: no env override!)
+      - name: Run ingestion and load scripts
+        run: |
+          export KROGER_CLIENT_ID="${{ secrets.KROGER_CLIENT_ID }}"
+          export KROGER_CLIENT_SECRET="${{ secrets.KROGER_CLIENT_SECRET }}"
+          export BQ_PROJECT="daniel-grocery-project"
+
+          echo "🚀 Running ingestion script for milk, eggs, and oranges..."
+          python pipeline/ingestion/latest_file.py milk eggs oranges
+
+          echo "📦 Running load script to upload data to BigQuery..."
+          python pipeline/load/load.py
