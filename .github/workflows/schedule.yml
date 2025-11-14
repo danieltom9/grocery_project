@@ -13,24 +13,6 @@ jobs:
     steps:
       # 🧾 Step 1: Checkout your repository
       - name: Checkout repository
-      ...
-
-``` yaml
-name: Daily Grocery Pipeline
-
-on:
-  schedule:
-    # Runs every day at 7 AM Pacific (15:00 UTC)
-    - cron: "0 15 * * *"
-  workflow_dispatch:
-
-jobs:
-  run:
-    runs-on: ubuntu-latest
-
-    steps:
-      # 🧾 Step 1: Checkout your repository
-      - name: Checkout repository
         uses: actions/checkout@v4
 
       # 🐍 Step 2: Set up Python environment
