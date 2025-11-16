@@ -35,16 +35,29 @@ jobs:
           echo "GOOGLE_JSON_KEY_FILE_PATH=/tmp/gcp-key.json" >> $GITHUB_ENV
           echo "✅ Decoded service account JSON written to /tmp/gcp-key.json"
 
-      # 🔎 Step 5: Debug the credentials file (optional, can be removed after success)
+      # 🧪 Step 5 (TEMP): Inspect credential decode result
+      - name: Inspect credential decode result
+        run: |
+          echo "SIZE OF /tmp/gcp-key.json:"
+          if [ -f /tmp/gcp-key.json ]; then
+            stat -c%s /tmp/gcp-key.json
+            echo "FIRST 80 BYTES:"
+            head -c 80 /tmp/gcp-key.json || true
+            echo
+          else
+            echo "NO FILE"
+          fi
+
+      # 🔎 Step 6: Debug the credentials file (optional, can be removed after success)
       - name: Debug credential environment
         run: |
           echo "DEBUG: GOOGLE_JSON_KEY_FILE_PATH=$GOOGLE_JSON_KEY_FILE_PATH"
           echo "DEBUG: Does the file exist?"
           test -f "$GOOGLE_JSON_KEY_FILE_PATH" && echo "YES" || echo "NO"
           echo "DEBUG: First few lines of credentials:"
-          head -n 20 "$GOOGLE_JSON_KEY_FILE_PATH"
+          head -n 20 "$GOOGLE_JSON_KEY_FILE_PATH" || echo "NO CONTENT"
 
-      # 🚀 Step 6: Run ingestion + load scripts (WITHOUT overriding env)
+      # 🚀 Step 7: Run ingestion + load scripts (WITHOUT overriding env)
       - name: Run ingestion and load scripts
         run: |
           export KROGER_CLIENT_ID="${{ secrets.KROGER_CLIENT_ID }}"
