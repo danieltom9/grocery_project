@@ -10,7 +10,10 @@ print("DEBUG: GOOGLE_JSON_KEY_FILE_PATH =", os.getenv("GOOGLE_JSON_KEY_FILE_PATH
 # === STEP 0: Load environment variables ===
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-load_dotenv(os.path.join(PROJECT_ROOT, "config/.env"), override=True)
+if os.getenv("GITHUB_ACTIONS") == "true":
+    print("Skipping .env load because we are in GitHub Actions")
+else:
+    load_dotenv(os.path.join(PROJECT_ROOT, "config/.env"), override=True)
 
 # === CONFIGURATION ===
 sqlite_db_path = os.path.join(PROJECT_ROOT, "products.db")
