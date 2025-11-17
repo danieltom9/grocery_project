@@ -50,3 +50,5 @@ job = client.load_table_from_dataframe(df, table_id)
 job.result()
 
 print(f"✅ Successfully loaded {len(df)} rows into {table_id}.")
+
+#test
