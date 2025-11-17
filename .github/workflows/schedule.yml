@@ -14,6 +14,9 @@ jobs:
       # 🧾 Step 1: Checkout your repository
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0       # IMPORTANT: ensures latest commit
+          ref: main            # forces GitHub Actions to use the main branch
 
       # 🐍 Step 2: Set up Python environment
       - name: Set up Python
