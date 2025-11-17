@@ -16,7 +16,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0       # IMPORTANT: ensures latest commit
-          ref: main            # forces GitHub Actions to use the main branch
+      - name: Print current commit
+        run: |
+          echo "Current commit:"
+          git rev-parse HEAD
+          echo "Latest commit on main:"
+          git rev-parse origin/main
+      - name: Print load.py contents
+        run: |
+          echo "==== LOAD FILE CONTENTS ===="
+          sed -n '1,200p' pipeline/load/load.py
 
       # 🐍 Step 2: Set up Python environment
       - name: Set up Python
