@@ -6,9 +6,7 @@ from dotenv import load_dotenv
 import argparse
 import sqlite3
 from datetime import datetime
-'''from prefect.blocks.system import Secret'''
 
-#DB_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "products.db")
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 DB_PATH = os.path.join(PROJECT_ROOT, "products.db")
 
@@ -18,9 +16,7 @@ DB_PATH = os.path.join(PROJECT_ROOT, "products.db")
 load_dotenv(dotenv_path="config/.env", override=True)
 
 CLIENT_ID = os.getenv("KROGER_CLIENT_ID") 
-'''or Secret.load("kroger-client-id").get()'''
 CLIENT_SECRET = os.getenv("KROGER_CLIENT_SECRET") 
-'''or Secret.load("kroger-client-secret").get()'''
 
 # Token endpoint
 TOKEN_URL = "https://api.kroger.com/v1/connect/oauth2/token"
@@ -105,7 +101,7 @@ def search_products(search_term, location_id="01100002", limit=5):
         else:
             print("No products found for the search term.")
     else:
-        print("❌ Error in GET request:", response.status_code, response.text)
+        print("Error in GET request:", response.status_code, response.text)
 
 if __name__ == "__main__":
     create_database()
