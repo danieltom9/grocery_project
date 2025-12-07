@@ -54,8 +54,8 @@ jobs:
           export KROGER_CLIENT_SECRET="${{ secrets.KROGER_CLIENT_SECRET }}"
           export BQ_PROJECT="daniel-grocery-project"
 
-          echo "🚀 Running ingestion script for milk, eggs, and oranges..."
+          echo "Running ingestion script for milk, eggs, and oranges..."
           python pipeline/ingestion/latest_file.py milk eggs oranges
 
-          echo "📦 Running load script to upload data to BigQuery..."
+          echo "Running load script to upload data to BigQuery..."
           python pipeline/load/load.py

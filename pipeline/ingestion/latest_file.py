@@ -64,7 +64,7 @@ def save_to_database(product_id, product_name, price, search_term):
     conn.commit()
     conn.close()
 
-def search_products(search_term, location_id="01100002", limit=5):
+def search_products(search_term, location_id="01100002", limit=3):
     """Search for products using the Kroger API."""
     url = "https://api.kroger.com/v1/products"
     headers = {
