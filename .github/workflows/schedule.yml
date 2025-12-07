@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 🧾 Step 1: Checkout your repository
+      # Step 1: Checkout your repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -27,17 +27,17 @@ jobs:
           echo "==== LOAD FILE CONTENTS ===="
           sed -n '1,200p' pipeline/load/load.py
 
-      # 🐍 Step 2: Set up Python environment
+      # Step 2: Set up Python environment
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      # 📦 Step 3: Install dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # 🔐 Step 4: Decode Google Cloud credentials from base64
+      # Step 4: Decode Google Cloud credentials from base64
       - name: Decode Google Cloud credentials
         env:
           GOOGLE_SERVICE_ACCOUNT_B64: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_B64 }}
@@ -45,31 +45,9 @@ jobs:
           echo "$GOOGLE_SERVICE_ACCOUNT_B64" | base64 --decode > /tmp/gcp-key.json
           chmod 600 /tmp/gcp-key.json
           echo "GOOGLE_JSON_KEY_FILE_PATH=/tmp/gcp-key.json" >> $GITHUB_ENV
-          echo "✅ Decoded service account JSON written to /tmp/gcp-key.json"
+          echo "Decoded service account JSON written to /tmp/gcp-key.json"
 
-      # 🧪 Step 5 (TEMP): Inspect credential decode result
-      - name: Inspect credential decode result
-        run: |
-          echo "SIZE OF /tmp/gcp-key.json:"
-          if [ -f /tmp/gcp-key.json ]; then
-            stat -c%s /tmp/gcp-key.json
-            echo "FIRST 80 BYTES:"
-            head -c 80 /tmp/gcp-key.json || true
-            echo
-          else
-            echo "NO FILE"
-          fi
-
-      # 🔎 Step 6: Debug the credentials file (optional, can be removed after success)
-      - name: Debug credential environment
-        run: |
-          echo "DEBUG: GOOGLE_JSON_KEY_FILE_PATH=$GOOGLE_JSON_KEY_FILE_PATH"
-          echo "DEBUG: Does the file exist?"
-          test -f "$GOOGLE_JSON_KEY_FILE_PATH" && echo "YES" || echo "NO"
-          echo "DEBUG: First few lines of credentials:"
-          head -n 20 "$GOOGLE_JSON_KEY_FILE_PATH" || echo "NO CONTENT"
-
-      # 🚀 Step 7: Run ingestion + load scripts (WITHOUT overriding env)
+      # Step 5: Run ingestion + load scripts (WITHOUT overriding env)
       - name: Run ingestion and load scripts
         run: |
           export KROGER_CLIENT_ID="${{ secrets.KROGER_CLIENT_ID }}"
