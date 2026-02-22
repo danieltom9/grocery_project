@@ -15,13 +15,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0       # IMPORTANT: ensures latest commit
+          fetch-depth: 0 # IMPORTANT: ensures latest commit
+
       - name: Print current commit
         run: |
           echo "Current commit:"
           git rev-parse HEAD
           echo "Latest commit on main:"
           git rev-parse origin/main
+
       - name: Print load.py contents
         run: |
           echo "==== LOAD FILE CONTENTS ===="
@@ -35,7 +37,7 @@ jobs:
 
       # Step 3: Install dependencies
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt
 
       # Step 4: Decode Google Cloud credentials from base64
       - name: Decode Google Cloud credentials
@@ -45,15 +47,16 @@ jobs:
           echo "$GOOGLE_SERVICE_ACCOUNT_B64" | base64 --decode > /tmp/gcp-key.json
           chmod 600 /tmp/gcp-key.json
           echo "GOOGLE_JSON_KEY_FILE_PATH=/tmp/gcp-key.json" >> $GITHUB_ENV
+          echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-key.json" >> $GITHUB_ENV
           echo "Decoded service account JSON written to /tmp/gcp-key.json"
 
-      # Step 5: Run ingestion + load scripts (WITHOUT overriding env)
+      # Step 5: Run ingestion + load scripts
       - name: Run ingestion and load scripts
+        env:
+          KROGER_CLIENT_ID: ${{ secrets.KROGER_CLIENT_ID }}
+          KROGER_CLIENT_SECRET: ${{ secrets.KROGER_CLIENT_SECRET }}
+          BQ_PROJECT: daniel-grocery-project
         run: |
-          export KROGER_CLIENT_ID="${{ secrets.KROGER_CLIENT_ID }}"
-          export KROGER_CLIENT_SECRET="${{ secrets.KROGER_CLIENT_SECRET }}"
-          export BQ_PROJECT="daniel-grocery-project"
-
           echo "Running ingestion script for milk, eggs, and oranges..."
           python pipeline/ingestion/latest_file.py milk eggs oranges
 
@@ -62,33 +65,38 @@ jobs:
 
       # Step 6: Set up dbt
       - name: Set up dbt
-        run: pip install dbt-bigquery
+        run: python -m pip install dbt-bigquery
 
-      # Step 6.5: Configure dbt profile (CI)
+      # Step 6.5: Configure dbt profile (CI) - BULLETPROOF PATH + VERIFY
       - name: Configure dbt profile
         run: |
-          mkdir -p ~/.dbt
-          cat > ~/.dbt/profiles.yml <<'YAML'
-          grocery_dbt_project:
-            target: prod
-            outputs:
-              prod:
-                type: bigquery
-                method: service-account
-                keyfile: /tmp/gcp-key.json
-                project: daniel-grocery-project
-                dataset: products_dataset
-                threads: 4
-                timeout_seconds: 300
-                location: US
-          YAML
+          mkdir -p /home/runner/.dbt
+          echo "Creating dbt profile..."
+
+          cat > /home/runner/.dbt/profiles.yml <<EOF
+grocery_dbt_project:
+  target: prod
+  outputs:
+    prod:
+      type: bigquery
+      method: service-account
+      keyfile: /tmp/gcp-key.json
+      project: daniel-grocery-project
+      dataset: products_dataset
+      threads: 4
+      timeout_seconds: 300
+      location: US
+EOF
+
+          echo "Profiles directory contents:"
+          ls -la /home/runner/.dbt
+          echo "Profiles file contents:"
+          sed -n '1,200p' /home/runner/.dbt/profiles.yml
 
       # Step 7: Run dbt tests
       - name: Run dbt tests
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
         run: |
           echo "Running dbt tests..."
           cd pipeline/transformation/dbt_project
-          dbt debug --profiles-dir ~/.dbt
-          dbt test  --profiles-dir ~/.dbt
+          dbt debug --profiles-dir /home/runner/.dbt
+          dbt test  --profiles-dir /home/runner/.dbt
