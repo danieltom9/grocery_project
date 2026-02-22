@@ -13,7 +13,7 @@ sources:
           - name: product_name
             tests:
               - not_null
-          - name: category
+          - name: search_term
             tests:
               - not_null
           - name: price
