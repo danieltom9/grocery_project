@@ -168,9 +168,7 @@ This project demonstrates:
 
 - Warehouse partitioning & clustering
 
-- dditional analytics marts
-
-- Infrastructure as code (Terraform)
+- Additional analytics marts
 
 - Data freshness monitoring
 
