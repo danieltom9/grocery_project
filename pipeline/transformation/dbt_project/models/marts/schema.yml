@@ -7,15 +7,18 @@ sources:
       - name: products_2
         columns:
           - name: product_id
-            tests:
-              - not_null
-              - unique
+            tests: [not_null]
           - name: product_name
-            tests:
-              - not_null
+            tests: [not_null]
           - name: search_term
-            tests:
-              - not_null
+            tests: [not_null]
           - name: price
-            tests:
-              - not_null
+            tests: [not_null]
+
+models:
+  - name: test_file
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
