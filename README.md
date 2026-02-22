@@ -19,6 +19,7 @@ BigQuery (Analytics Layer)
     ↓
 Looker Studio Dashboard
 
+```mermaid
 flowchart LR
     A[Kroger API] --> B[Python Extraction]
     B --> C[SQLite Raw Storage]
@@ -27,6 +28,7 @@ flowchart LR
     E --> F[Looker Studio Dashboard]
     G[GitHub Actions] --> B
     G --> D
+```
 
 🚀 Pipeline Workflow
 
