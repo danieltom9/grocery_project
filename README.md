@@ -105,17 +105,17 @@ The final table contains validated, deduplicated, analytics-ready grocery produc
 
 This project demonstrates:
 
-    - End-to-end data pipeline ownership
+- End-to-end data pipeline ownership
 
-    - Data modeling discipline using dbt
+- Data modeling discipline using dbt
 
-    - Automated data validation workflows
+- Automated data validation workflows
 
-    - Cloud warehouse integration
+- Cloud warehouse integration
 
-    - CI-based orchestration
+- CI-based orchestration
 
-    - Delivery of BI-ready datasets
+- Delivery of BI-ready datasets
 
 🔮 Future Enhancements
 
