@@ -2,10 +2,10 @@ version: 2
 
 sources:
   - name: raw
-    schema: main
+    schema: products_dataset
     tables:
-      - name: products
-        columns: 
+      - name: products_2
+        columns:
           - name: product_id
             tests:
               - not_null
