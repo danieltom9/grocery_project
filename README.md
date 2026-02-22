@@ -1,6 +1,6 @@
 ## 🛒 Grocery Product Analytics Pipeline
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/danieltom9/grocery_project/main.yml?label=CI)
+![CI](https://img.shields.io/github/actions/workflow/status/danieltom9/grocery_project/schedule.yml?label=CI&logo=github)
 ![Python](https://img.shields.io/badge/python-3.10-blue)
 ![dbt](https://img.shields.io/badge/dbt-enabled-orange)
 ![BigQuery](https://img.shields.io/badge/warehouse-BigQuery-blue)
