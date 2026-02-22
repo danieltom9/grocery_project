@@ -1,5 +1,10 @@
 ## 🛒 Grocery Product Analytics Pipeline
 
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/danieltom9/grocery_project/main.yml?label=CI)
+![Python](https://img.shields.io/badge/python-3.10-blue)
+![dbt](https://img.shields.io/badge/dbt-enabled-orange)
+![BigQuery](https://img.shields.io/badge/warehouse-BigQuery-blue)
+
 An end-to-end analytics engineering project that ingests product data from the Kroger API, applies structured transformations and data quality validation with dbt, loads curated models into BigQuery, and delivers business-ready insights through Looker Studio.
 
 This project demonstrates modern data stack principles: modular modeling, automated data validation, cloud warehousing, and CI-driven orchestration.
