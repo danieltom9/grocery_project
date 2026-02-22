@@ -59,3 +59,15 @@ jobs:
 
           echo "Running load script to upload data to BigQuery..."
           python pipeline/load/load.py
+
+      # Step 6: Set up dbt
+      - name: Set up dbt
+        run: pip install dbt-bigquery
+
+      # Step 7: Run dbt tests
+      - name: Run dbt tests
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
+        run: |
+          echo "Running dbt tests..."
+          dbt test
