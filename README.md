@@ -25,6 +25,20 @@ By transforming raw product data into validated, analytics-ready warehouse model
 
 This project bridges personal finance and analytics engineering by applying modern data stack principles to a real-world use case.
 
+## 🛠 Tech Stack
+
+- Python 3.10
+
+- SQLite (raw staging layer)
+
+- dbt (transformation & data quality)
+
+- Google BigQuery (cloud data warehouse)
+
+- GitHub Actions (CI/CD orchestration)
+
+- Looker Studio (analytics & visualization)
+
 ## 📂 Project Structure
 
 Below is a high-level overview of the repository organization:
@@ -86,15 +100,15 @@ flowchart LR
 
 - This project follows analytics engineering best practices:
 
-- Clear separation between raw ingestion and analytics-ready models
+    - Clear separation between raw ingestion and analytics-ready models
 
-- dbt-driven transformation layer
+    - dbt-driven transformation layer
 
-- Automated data quality validation
+    - Automated data quality validation
 
-- Reproducible daily orchestration
+    - Reproducible daily orchestration
 
-- Warehouse-first modeling mindset
+    - Warehouse-first modeling mindset
 
 ## 🔎 Data Validation Strategy
 
@@ -105,20 +119,6 @@ flowchart LR
 - SQL model to deduplicate source data before warehouse load
 
 - Automated test execution during scheduled runs
-
-## 🛠 Tech Stack
-
-- Python 3.10
-
-- SQLite (raw staging layer)
-
-- dbt (transformation & data quality)
-
-- Google BigQuery (cloud data warehouse)
-
-- GitHub Actions (CI/CD orchestration)
-
-- Looker Studio (analytics & visualization)
 
 ## 🔄 Orchestration & Automation
 
