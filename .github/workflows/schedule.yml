@@ -64,10 +64,31 @@ jobs:
       - name: Set up dbt
         run: pip install dbt-bigquery
 
+      # Step 6.5: Configure dbt profile (CI)
+      - name: Configure dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml <<'YAML'
+          grocery_dbt_project:
+            target: prod
+            outputs:
+              prod:
+                type: bigquery
+                method: service-account
+                keyfile: /tmp/gcp-key.json
+                project: daniel-grocery-project
+                dataset: products_dataset
+                threads: 4
+                timeout_seconds: 300
+                location: US
+          YAML
+
       # Step 7: Run dbt tests
       - name: Run dbt tests
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
         run: |
           echo "Running dbt tests..."
-          dbt test
+          cd pipeline/transformation/dbt_project
+          dbt debug --profiles-dir ~/.dbt
+          dbt test  --profiles-dir ~/.dbt
