@@ -3,6 +3,6 @@ version: '1.0'
 profile: 'grocery_dbt_project'
 
 models:
-  sales_transformations:
+  grocery_transformations:
     marts:
-      materialized: view
+      +materialized: view
