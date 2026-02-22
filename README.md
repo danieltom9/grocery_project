@@ -5,19 +5,6 @@ An end-to-end analytics engineering project that ingests product data from the K
 This project demonstrates modern data stack principles: modular modeling, automated data validation, cloud warehousing, and CI-driven orchestration.
 
 🏗 Architecture
-High-Level Flow
-
-Kroger API
-    ↓
-Python Extraction
-    ↓
-SQLite (Raw Layer)
-    ↓
-dbt Transformations + Tests
-    ↓
-BigQuery (Analytics Layer)
-    ↓
-Looker Studio Dashboard
 
 ```mermaid
 flowchart LR
