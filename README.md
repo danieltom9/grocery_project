@@ -4,6 +4,44 @@ An end-to-end analytics engineering project that ingests product data from the K
 
 This project demonstrates modern data stack principles: modular modeling, automated data validation, cloud warehousing, and CI-driven orchestration.
 
+🎯 Project Goal
+
+The goal of this project is to build a production-style analytics pipeline that enables me to visualize and analyze my grocery spending in order to make more financially responsible decisions.
+
+By transforming raw product data into validated, analytics-ready warehouse models, this project allows me to:
+
+- Track grocery spending trends
+
+- Analyze product pricing patterns
+
+- Identify spending habits over time
+
+- Build data-driven budgeting insights
+
+This project bridges personal finance and analytics engineering by applying modern data stack principles to a real-world use case.
+
+📂 Project Structure
+
+Below is a high-level overview of the repository organization:
+
+grocery_project/
+│
+├── pipeline/
+│   ├── extract/          # Kroger API ingestion logic
+│   ├── transform/        # Data preparation logic
+│   └── load/             # BigQuery loading logic
+│
+├── dbt_project/          # dbt models, schema tests, SQL transformations
+│   ├── models/
+│   └── tests/
+│
+├── .github/
+│   └── workflows/        # GitHub Actions orchestration
+│
+├── products.db           # Local SQLite raw staging database
+├── requirements.txt      # Python dependencies
+└── README.md
+
 🏗 Architecture
 
 ```mermaid
