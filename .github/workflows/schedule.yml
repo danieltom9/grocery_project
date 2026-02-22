@@ -67,8 +67,8 @@ jobs:
       # Step 6.5: Configure dbt profile (CI)
       - name: Configure dbt profile
         run: |
-          mkdir -p ~/.dbt
-          cat > ~/.dbt/profiles.yml <<'YAML'
+          mkdir -p /home/runner/.dbt
+          cat > /home/runner/.dbt/profiles.yml <<'YAML'
           grocery_dbt_project:
             target: prod
             outputs:
@@ -90,5 +90,6 @@ jobs:
         run: |
           echo "Running dbt tests..."
           cd pipeline/transformation/dbt_project
-          dbt debug --profiles-dir ~/.dbt
-          dbt test  --profiles-dir ~/.dbt
+          dbt debug --profiles-dir /home/runner/.dbt
+          dbt run  --profiles-dir /home/runner/.dbt
+          dbt test  --profiles-dir /home/runner/.dbt
