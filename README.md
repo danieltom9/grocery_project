@@ -1,10 +1,10 @@
-🛒 Grocery Product Analytics Pipeline
+## 🛒 Grocery Product Analytics Pipeline
 
 An end-to-end analytics engineering project that ingests product data from the Kroger API, applies structured transformations and data quality validation with dbt, loads curated models into BigQuery, and delivers business-ready insights through Looker Studio.
 
 This project demonstrates modern data stack principles: modular modeling, automated data validation, cloud warehousing, and CI-driven orchestration.
 
-🎯 Project Goal
+## 🎯 Project Goal
 
 The goal of this project is to build a production-style analytics pipeline that enables me to visualize and analyze my grocery spending in order to make more financially responsible decisions.
 
@@ -44,7 +44,7 @@ grocery_project/
 └── README.md
 ```
 
-🏗 Architecture
+## 🏗 Architecture
 
 ```mermaid
 flowchart LR
@@ -57,7 +57,7 @@ flowchart LR
     G --> D
 ```
 
-🚀 Pipeline Workflow
+## 🚀 Pipeline Workflow
 
 1. Extract raw grocery product data from the Kroger REST API using Python
 
@@ -77,7 +77,7 @@ flowchart LR
 
 9. Orchestrate the full workflow daily using GitHub Actions
 
-🧠 Analytics Engineering Approach
+## 🧠 Analytics Engineering Approach
 
 - This project follows analytics engineering best practices:
 
@@ -91,7 +91,7 @@ flowchart LR
 
 - Warehouse-first modeling mindset
 
-Data Validation Strategy
+## 🔎 Data Validation Strategy
 
 - YAML schema tests
 
@@ -101,7 +101,7 @@ Data Validation Strategy
 
 - Automated test execution during scheduled runs
 
-🛠 Tech Stack
+## 🛠 Tech Stack
 
 - Python 3.10
 
@@ -115,7 +115,7 @@ Data Validation Strategy
 
 - Looker Studio (analytics & visualization)
 
-🔄 Orchestration & Automation
+## 🔄 Orchestration & Automation
 
 - Fully automated daily pipeline using GitHub Actions
 
@@ -131,7 +131,7 @@ Data Validation Strategy
 
 - Designed for repeatability and production-style execution
 
-📦 Warehouse Output
+## 📦 Warehouse Output
 
 BigQuery
 
@@ -141,7 +141,7 @@ BigQuery
 
 The final table contains validated, deduplicated, analytics-ready grocery product data suitable for BI consumption.
 
-📊 Outcome
+## 📊 Outcome
 
 This project demonstrates:
 
@@ -157,7 +157,7 @@ This project demonstrates:
 
 - Delivery of BI-ready datasets
 
-🔮 Future Enhancements
+## 📈 Future Enhancements
 
 - Incremental models for performance optimization
 
