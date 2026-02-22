@@ -20,27 +20,29 @@ By transforming raw product data into validated, analytics-ready warehouse model
 
 This project bridges personal finance and analytics engineering by applying modern data stack principles to a real-world use case.
 
-📂 Project Structure
+## 📂 Project Structure
 
 Below is a high-level overview of the repository organization:
 
+```text
 grocery_project/
 │
 ├── pipeline/
-│   ├── extract/          # Kroger API ingestion logic
-│   ├── transform/        # Data preparation logic
-│   └── load/             # BigQuery loading logic
+│   ├── extract/        # Kroger API ingestion logic
+│   ├── transform/      # Data preparation logic
+│   └── load/           # BigQuery loading logic
 │
-├── dbt_project/          # dbt models, schema tests, SQL transformations
+├── dbt_project/        # dbt models & schema tests
 │   ├── models/
 │   └── tests/
 │
 ├── .github/
-│   └── workflows/        # GitHub Actions orchestration
+│   └── workflows/      # GitHub Actions orchestration
 │
-├── products.db           # Local SQLite raw staging database
-├── requirements.txt      # Python dependencies
+├── products.db         # Local SQLite raw staging database
+├── requirements.txt    # Python dependencies
 └── README.md
+```
 
 🏗 Architecture
 
