@@ -9,6 +9,12 @@ An end-to-end analytics engineering project that ingests product data from the K
 
 This project demonstrates modern data stack principles: modular modeling, automated data validation, cloud warehousing, and CI-driven orchestration.
 
+## 📊 Dashboard
+
+Interactive dashboard built in Looker Studio:
+
+🔗 [View Dashboard](https://lookerstudio.google.com/reporting/954d0f65-a5bc-4d83-8dc4-a4985d51be32/page/WiJbF)
+
 ## 🎯 Project Goal
 
 The goal of this project is to build a production-style analytics pipeline that enables me to visualize and analyze my grocery spending in order to make more financially responsible decisions.
